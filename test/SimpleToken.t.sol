@@ -6,12 +6,11 @@ import "../src/SimpleToken.sol";
 contract simpleTokenTest is Test {
     SimpleToken simpletoken;
     Escrow escrow;
-    address owner;
+    address owner = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
     function setUp() public {
-        owner = payable(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266);
         vm.deal(owner, 0 ether);
         vm.prank(owner);
-        escrow = new Escrow(owner, "SIMPLE TOKEN", "SPTK", 10);
+        escrow = new Escrow(payable(owner), "SIMPLE TOKEN", "SPTK", 10);
     }
 
     function testGetName() public view {
@@ -19,8 +18,8 @@ contract simpleTokenTest is Test {
         assertEq(_name, "SIMPLE TOKEN");
     }
     function testTotalSuply() public view {
-        uint256 _tottalSuppplyValue = escrow.totalSupply();
-        assertEq(_tottalSuppplyValue, 1000001000000);
+        uint256 _totalSuppplyValue = escrow.totalSupply();
+        assertEq(_totalSuppplyValue, 1000001000000);
         address _owner = escrow._getOwner();
         assertEq(
             escrow._getOwner(),

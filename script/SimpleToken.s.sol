@@ -11,9 +11,9 @@ contract simpleTokenScript is Script {
     function run() public {
         vm.startBroadcast();
         escrow = new Escrow(
-            payable(0x42637396821B84A786382aF4706873fb78FAc879),
-            "FLICKS TOKEN",
-            "FLT",
+            payable(0xb2Dc9f4b66c5C3EFE479e2585d199442C8066ab3),
+            "MILLS TOKEN",
+            "MLT",
             10
         );
         vm.stopBroadcast();

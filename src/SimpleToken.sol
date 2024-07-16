@@ -66,7 +66,7 @@ contract _ownable {
         require(isLocked == false, "Token is locked");
         _;
     }
-    function lock() internal _onlyOwner returns (bool) {
+    function lock() internal returns (bool) {
         return isLocked = true;
     }
     function unLock() public _onlyOwner returns (bool) {
@@ -84,15 +84,15 @@ contract SimpleToken is ERC20, _ownable {
     mapping(address => uint256) internal balances;
     mapping(address => mapping(address => uint256)) allowed;
     constructor(
-        address _address,
+        address payable _address,
         string memory _name,
         string memory _symbol,
         uint8 _decimal
-    ) _ownable(payable(_address)) {
+    ) _ownable(_address) {
         name = _name;
         symbol = _symbol;
         decimals = _decimal;
-        totalSupply = 10000000 * 10 ** decimals;
+        totalSupply = 1000001000000;
         balances[owner] = totalSupply;
     }
 
@@ -154,7 +154,7 @@ contract SimpleToken is ERC20, _ownable {
         address _spender,
         uint256 _amount
     ) public _onlyOwner returns (bool) {
-        allowed[owner][_spender] = allowed[owner][_spender].add(_amount);
+        allowed[owner][_spender] = _amount;
         emit Approval(owner, _spender, _amount);
         return true;
     }
@@ -164,11 +164,11 @@ contract Escrow is _ownable, SimpleToken {
     using safeMath for uint256;
 
     constructor(
-        address _address,
+        address payable _address,
         string memory _name,
         string memory _symbol,
         uint8 _decimal
-    ) SimpleToken(payable(_address), _name, _symbol, _decimal) {
+    ) SimpleToken(_address, _name, _symbol, _decimal) {
         lock();
     }
 
@@ -190,12 +190,7 @@ contract Escrow is _ownable, SimpleToken {
 
     function _purchaseToken(
         address _recepient
-    )
-        public
-        payable
-        isNotLocked
-        returns (bool truthyFalsy, bytes memory response)
-    {
+    ) public payable returns (bool truthyFalsy, bytes memory response) {
         require(msg.value >= 0.005 ether, "Low ether balance");
         uint256 _tokens = _tokenQoutes();
         transferFrom(msg.sender, _recepient, _tokens);
