@@ -79,4 +79,18 @@ contract simpleTokenTest is Test {
         );
         assertEq(owner.balance, 0.005 ether);
     }
+
+    function test_Faucet() public {
+        escrow.recieveTokenDrop(owner);
+
+        uint256 _time = escrow.getTokenDisbursedTimestamp(
+            0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f
+        );
+        escrow.recieveTokenDrop(0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f);
+        // assertEq(_time, 1721205299);
+        // escrow.recieveTokenDrop(0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f);
+        // uint256 _time_ = escrow.getTokenDisbursedTimestamp(
+        //     0x23618e81E3f5cdF7f54C3d65f7FBc0aBf5B21E8f
+        // );
+    }
 }

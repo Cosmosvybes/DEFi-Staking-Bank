@@ -162,6 +162,13 @@ contract SimpleToken is ERC20, _ownable {
 
 contract Escrow is _ownable, SimpleToken {
     using safeMath for uint256;
+    uint256 timestamp;
+
+    struct faucetStatus {
+        address user;
+        uint256 requestTimestamp;
+    }
+    mapping(address => faucetStatus) public faucet;
 
     constructor(
         address payable _address,
@@ -198,6 +205,35 @@ contract Escrow is _ownable, SimpleToken {
         if (success) {
             return (true, data);
         }
+    }
+
+    function getTokenDisbursedTimestamp(
+        address _address
+    ) public view returns (uint256) {
+        return faucet[_address].requestTimestamp;
+    }
+
+    modifier notOwner(address _recepient) {
+        require(_recepient != address(owner), "Invalid address");
+        _;
+    }
+
+    function recieveTokenDrop(
+        address _address
+    ) public notOwner(_address) returns (bool) {
+        require(
+            (block.timestamp - getTokenDisbursedTimestamp(_address)) >
+                10 minutes,
+            "Try again in the next 10 mins"
+        );
+        balances[owner] = balances[owner].sub(1000);
+        balances[_address] = balances[_address].add(1000);
+        faucet[_address] = faucetStatus({
+            user: _address,
+            requestTimestamp: block.timestamp
+        });
+        emit Transfer(owner, _address, 1000);
+        return true;
     }
 
     receive() external payable {}
