@@ -1,12 +1,15 @@
-## FLICKS TOKEN
+## PROJECT TITLE 
+- Defi Staking Smart Contract.
 
 ## Description  of the token
 
-This is an ERC-20 Token , that uses Escrow.
-- This token has the sum of [1000000] as as the total supply.
-- Token Name is can Be passed to the construtor, same with the symbol and the token decimals.
-- All Tokens in the Smart Contract is locked upon deployment, in which only the allowed users with a specific buying power can make purchase of the token with Ethereum.
-  
+- This is a Defi- staking Contracts the following operations:
+- Purcase of the bank currency with Ether.
+- Staking and unstaking  of customers' funds into the bank.
+- Rewarding the customers based the staking balance available in the bank.
+- Conversion of the rewards token to the banks currency (by customer's choice).
+- Withdrawal of the rewards to customers currency account after conversion.
 
 
-
+# Next Action Plan
+- Building a DApp for the project to support user interaction.
